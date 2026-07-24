@@ -10,7 +10,7 @@ pipeline {
 
         APP_NAME = "voting-app"
 
-        DOCKER_IMAGE = "jamadar21/voting_system"
+        DOCKER_IMAGE = "jamadar21/voting-app"
 
         DOCKER_CREDENTIALS = "dockerhub-creds"
     }
