@@ -5,7 +5,7 @@ pipeline {
 
     environment {
 
-        DOCKER_IMAGE = "jamadar21/online-voting-system:latest"
+        DOCKER_IMAGE = "jamadar21/vote:latest"
 
         K8S_PATH = "k8s"
 
