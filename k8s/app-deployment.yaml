@@ -22,7 +22,7 @@ spec:
       - name: voting-app
 
         # Change this with your Docker Hub image
-        image: jamadar21/online-voting-system:latest
+        image: jamadar21/vote:latest
 
         ports:
         - containerPort: 8080
