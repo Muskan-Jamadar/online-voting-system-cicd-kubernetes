@@ -24,7 +24,7 @@ pipeline {
             steps {
 
                 git branch: 'main',
-                url: 'YOUR_GITHUB_REPO_URL'
+                url: 'https://github.com/Muskan-Jamadar/online-voting-system-cicd-kubernetes.git'
 
             }
         }
