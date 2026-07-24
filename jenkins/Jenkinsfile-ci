@@ -2,18 +2,21 @@ pipeline {
 
     agent any
 
+
     tools {
         maven 'maven'
     }
+
 
     environment {
 
         APP_NAME = "voting-app"
 
-        DOCKER_IMAGE = "jamadar21/voting-app"
+        DOCKER_IMAGE = "jamadar21/vote"
 
         DOCKER_CREDENTIALS = "dockerhub-creds"
     }
+
 
 
     stages {
@@ -22,12 +25,37 @@ pipeline {
         stage('Clean Workspace') {
 
             steps {
+
                 deleteDir()
+
             }
         }
 
 
-        
+
+        stage('Checkout Code') {
+
+            steps {
+
+                git branch: 'main',
+                    url: 'https://github.com/Muskan-Jamadar/online-voting-system-cicd-kubernetes.git'
+
+            }
+        }
+
+
+
+        stage('Check Files') {
+
+            steps {
+
+                sh '''
+                ls -la
+                '''
+
+            }
+        }
+
 
 
         stage('Maven Build') {
@@ -42,6 +70,8 @@ pipeline {
         }
 
 
+
+
         stage('Docker Build') {
 
             steps {
@@ -54,27 +84,34 @@ pipeline {
         }
 
 
+
+
         stage('Check Docker Image') {
 
             steps {
 
                 sh '''
-                docker images | grep voting-app
+                docker images | grep vote
                 '''
 
             }
         }
 
 
+
+
+
         stage('Docker Login') {
 
             steps {
+
 
                 withCredentials([usernamePassword(
                     credentialsId: "${DOCKER_CREDENTIALS}",
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
+
 
                     sh '''
                     echo $DOCKER_PASS | docker login \
@@ -88,6 +125,9 @@ pipeline {
         }
 
 
+
+
+
         stage('Docker Push') {
 
             steps {
@@ -99,14 +139,30 @@ pipeline {
             }
         }
 
+
+
+
+        stage('Docker Logout') {
+
+            steps {
+
+                sh '''
+                docker logout
+                '''
+
+            }
+        }
+
+
     }
+
 
 
     post {
 
         success {
 
-            echo "CI Pipeline Completed Successfully - Docker Image Pushed"
+            echo "CI Pipeline Completed Successfully - jamadar21/vote pushed"
 
         }
 
