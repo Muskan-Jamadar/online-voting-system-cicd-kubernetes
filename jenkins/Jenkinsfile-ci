@@ -19,6 +19,14 @@ pipeline {
     stages {
 
 
+        stage('Clean Workspace') {
+
+            steps {
+                deleteDir()
+            }
+        }
+
+
         stage('Checkout Code') {
 
             steps {
@@ -53,39 +61,39 @@ pipeline {
             }
         }
 
+
         stage('Check Docker Image') {
 
-    steps {
+            steps {
 
-        sh '''
-        docker images | grep voting-app
-        '''
+                sh '''
+                docker images | grep voting-app
+                '''
 
-    }
-}
-
+            }
+        }
 
 
         stage('Docker Login') {
 
-    steps {
+            steps {
 
-        withCredentials([usernamePassword(
-            credentialsId: "${DOCKER_CREDENTIALS}",
-            usernameVariable: 'DOCKER_USER',
-            passwordVariable: 'DOCKER_PASS'
-        )]) {
+                withCredentials([usernamePassword(
+                    credentialsId: "${DOCKER_CREDENTIALS}",
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
 
-            sh '''
-            echo $DOCKER_PASS | docker login \
-            -u $DOCKER_USER \
-            --password-stdin
-            '''
+                    sh '''
+                    echo $DOCKER_PASS | docker login \
+                    -u $DOCKER_USER \
+                    --password-stdin
+                    '''
 
+                }
+
+            }
         }
-
-    }
-}
 
 
         stage('Docker Push') {
@@ -98,7 +106,6 @@ pipeline {
 
             }
         }
-
 
     }
 
