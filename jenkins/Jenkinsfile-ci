@@ -27,15 +27,7 @@ pipeline {
         }
 
 
-        stage('Checkout Code') {
-
-            steps {
-
-                git branch: 'main',
-                url: 'https://github.com/Muskan-Jamadar/online-voting-system-cicd-kubernetes.git'
-
-            }
-        }
+        
 
 
         stage('Maven Build') {
